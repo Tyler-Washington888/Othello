@@ -20,11 +20,11 @@ class Othello_Board:
         valid_moves_dictionary = None
 
         if piece == "B":
-            self.black_valid_moves.clear()
             valid_moves_dictionary = self.black_valid_moves
         else:
-            self.white_valid_moves.clear()
             valid_moves_dictionary = self.white_valid_moves
+
+        valid_moves_dictionary.clear()
 
         for coordinate in coordinates:
             x = coordinate[0]

@@ -8,18 +8,26 @@ class Othello_Board:
         self.board[3][4] = self.board[4][3] = 'B'
         self.board[3][3] = self.board[4][4] = 'W'
 
-        self.black_spots = [(3,4), (4,3)]
-        self.white_spots = [(3,3), (4,4)] 
+        self.black_coordinates = [(3,4), (4,3)]
+        self.white_coordinates = [(3,3), (4,4)] 
 
         self.black_valid_moves = {(3,2): True, (2,3): True, (4,5): True, (5,4): True}
         self.white_valid_moves = {}
 
         self.invalid_streak = 0
 
-    def find_valid_moves(self, spots, piece):
-        self.black_valid_moves.clear()
+    def find_valid_moves(self, coordinates, piece):
+        valid_moves_dictionary = None
+        if piece == "B":
+            print(self.black_valid_moves)
+            self.black_valid_moves.clear()
+            valid_moves_dictionary = self.black_valid_moves
+            print(self.black_valid_moves)
+        else:
+            self.white_valid_moves.clear()
+            valid_moves_dictionary = self.white_valid_moves
 
-        for coordinate in spots:
+        for coordinate in coordinates:
             x = coordinate[0]
             y = coordinate[1]
 
@@ -37,10 +45,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x, y - 1)] = True
-                    else:
-                        self.white_valid_moves[(x, y - 1)] = True
+                    valid_moves_dictionary[(x, y - 1)] = True
 
             # check upper lett coordinate
             if (x - 1 >= 0) and (y - 1 >= 0) and (self.board[x - 1][y - 1] == ' '):
@@ -58,10 +63,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x - 1, y - 1)] = True
-                    else:
-                        self.white_valid_moves[(x - 1, y - 1)] = True
+                    valid_moves_dictionary[(x - 1, y - 1)] = True
                 
             # check above coordinate
             if (x - 1 >= 0) and (self.board[x - 1][y] == ' '):
@@ -77,10 +79,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x - 1, y)] = True
-                    else:
-                        self.white_valid_moves[(x - 1, y)] = True
+                    valid_moves_dictionary[(x - 1, y)] = True
 
             # check upper right of coordinate
             if (x - 1 >= 0) and (y + 1 < 8) and (self.board[x - 1][y + 1] == ' '):
@@ -98,10 +97,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x - 1, y + 1)] = True
-                    else:
-                        self.white_valid_moves[(x - 1, y + 1)] = True
+                    valid_moves_dictionary[(x - 1, y + 1)] = True
 
             # check right of coordinate
             if (y + 1 < 8) and (self.board[x][y + 1] == ' '):
@@ -117,10 +113,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x, y + 1)] = True
-                    else:
-                        self.white_valid_moves[(x, y + 1)] = True
+                    valid_moves_dictionary[(x, y + 1)] = True
 
             # check bottom right of coordinate
             if (x + 1 < 8) and (y + 1 < 8) and (self.board[x + 1][y + 1] == ' '):
@@ -138,10 +131,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x + 1, y + 1)] = True
-                    else:
-                        self.white_valid_moves[(x + 1, y + 1)] = True
+                    valid_moves_dictionary[(x + 1, y + 1)] = True
 
             # check below coordinate
             if (x + 1 < 8) and (self.board[x + 1][y] == ' '):
@@ -157,10 +147,7 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x + 1, y)] = True
-                    else:
-                        self.white_valid_moves[(x + 1, y)] = True
+                    valid_moves_dictionary[(x + 1, y)] = True
 
             # check bottom left of coordinate
             if (x + 1 < 8) and (y - 1 >= 0) and (self.board[x + 1][y - 1] == ' '):
@@ -179,10 +166,8 @@ class Othello_Board:
                 middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    if piece == 'B':
-                        self.black_valid_moves[(x + 1, y - 1)] = True
-                    else:
-                        self.white_valid_moves[(x + 1, y - 1)] = True
+                    valid_moves_dictionary[(x + 1, y - 1)] = True
+
 
     def print_board(self) -> None:
         for row in self.board:

@@ -18,11 +18,10 @@ class Othello_Board:
 
     def find_valid_moves(self, coordinates, piece):
         valid_moves_dictionary = None
+
         if piece == "B":
-            print(self.black_valid_moves)
             self.black_valid_moves.clear()
             valid_moves_dictionary = self.black_valid_moves
-            print(self.black_valid_moves)
         else:
             self.white_valid_moves.clear()
             valid_moves_dictionary = self.white_valid_moves
@@ -167,7 +166,6 @@ class Othello_Board:
 
                 if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
                     valid_moves_dictionary[(x + 1, y - 1)] = True
-
 
     def print_board(self) -> None:
         for row in self.board:

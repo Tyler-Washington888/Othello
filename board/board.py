@@ -78,163 +78,259 @@ class Othello_Board:
             # check left of coordinate
             if (y - 1 >= 0) and (self.board[x][y - 1] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 yRef = y
 
-                while yRef < 8 and self.board[x][yRef] != ' ':
+                while yRef < 8 and (self.board[x][yRef] != ' ' and self.board[x][yRef] != piece):
                     sequence_of_pieces += self.board[x][yRef]
-                    if self.board[x][yRef] != piece:
-                        pieces_that_would_change.append((x, yRef))
                     yRef += 1
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
+                if yRef < 8 and self.board[x][yRef] == piece: sequence_of_pieces += piece
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x, y - 1)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x, y - 1)] = self.pieces_that_would_change(x, y - 1, piece)
 
             # check upper left of coordinate
             if (x - 1 >= 0) and (y - 1 >= 0) and (self.board[x - 1][y - 1] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 xRef = x
                 yRef = y
 
-                while xRef < 8 and yRef < 8 and self.board[xRef][yRef] != ' ':
+                while xRef < 8 and yRef < 8 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
                     sequence_of_pieces += self.board[xRef][yRef]
-                    if self.board[xRef][yRef] != piece:
-                        pieces_that_would_change.append((xRef, yRef))
                     xRef += 1
                     yRef += 1
-                
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
+                                
+                if xRef < 8 and yRef < 8 and self.board[xRef][yRef] == piece: sequence_of_pieces += piece
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x - 1, y - 1)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x - 1, y - 1)] = self.pieces_that_would_change(x - 1, y - 1, piece)
                 
             # check above coordinate
             if (x - 1 >= 0) and (self.board[x - 1][y] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 xRef = x
 
-                while xRef < 8 and self.board[xRef][y] != ' ':
+                while xRef < 8 and (self.board[xRef][y] != ' ' and self.board[xRef][y] != piece):
                     sequence_of_pieces += self.board[xRef][y]
-                    if self.board[xRef][y] != piece:
-                        pieces_that_would_change.append((xRef, y))
                     xRef += 1
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
+                if xRef < 8 and self.board[xRef][y] == piece: sequence_of_pieces += piece
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x - 1, y)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x - 1, y)] = self.pieces_that_would_change(x - 1, y, piece)
 
             # check upper right of coordinate
             if (x - 1 >= 0) and (y + 1 < 8) and (self.board[x - 1][y + 1] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 xRef = x
                 yRef = y
 
-                while xRef < 8 and yRef >= 0 and self.board[xRef][yRef] != ' ':
+                while xRef < 8 and yRef >= 0 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
                     sequence_of_pieces += self.board[xRef][yRef]
-                    if self.board[xRef][yRef] != piece:
-                        pieces_that_would_change.append([xRef, yRef])
                     xRef += 1
                     yRef -= 1
+                                
+                if xRef < 8 and y >=0 and self.board[xRef][yRef] == piece: sequence_of_pieces += piece
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
-
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x - 1, y + 1)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x - 1, y + 1)] = self.pieces_that_would_change(x - 1, y + 1, piece)
 
             # check right of coordinate
             if (y + 1 < 8) and (self.board[x][y + 1] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 yRef = y
 
-                while yRef >= 0 and self.board[x][yRef] != ' ':
+                while yRef >= 0 and (self.board[x][yRef] != ' ' and self.board[x][yRef] != piece):
                     sequence_of_pieces += self.board[x][yRef]
-                    if self.board[x][yRef] != piece:
-                        pieces_that_would_change.append((x, yRef))
                     yRef -= 1
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
+                if xRef < 8 and self.board[x][yRef] == piece: sequence_of_pieces += piece
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x, y + 1)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x, y + 1)] = self.pieces_that_would_change(x, y + 1, piece)
 
             # check bottom right of coordinate
             if (x + 1 < 8) and (y + 1 < 8) and (self.board[x + 1][y + 1] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 xRef = x
                 yRef = y
 
-                while xRef >= 0 and yRef >= 0 and self.board[xRef][yRef] != ' ':
+                while xRef >= 0 and yRef >= 0 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
                     sequence_of_pieces += self.board[xRef][yRef]
-                    if self.board[xRef][yRef] != piece:
-                        pieces_that_would_change.append((xRef, yRef))
                     xRef -= 1
                     yRef -= 1
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
+                if xRef >= 0 and yRef >= 0 and self.board[xRef][yRef] == piece: sequence_of_pieces += piece
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x + 1, y + 1)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x + 1, y + 1)] = self.pieces_that_would_change(x + 1, y + 1, piece)
 
             # check below coordinate
             if (x + 1 < 8) and (self.board[x + 1][y] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 xRef = x
 
-                while xRef >= 0 and self.board[xRef][y] != ' ':
+                while xRef >= 0 and (self.board[xRef][y] != ' ' and self.board[xRef][y] != piece):
                     sequence_of_pieces += self.board[xRef][y]
-                    if self.board[xRef][y] != piece:
-                        pieces_that_would_change.append((xRef, y))
                     xRef -= 1
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
+                if xRef >= 0 and self.board[xRef][y] == piece: sequence_of_pieces += piece
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x + 1, y)] = pieces_that_would_change
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    valid_moves[(x + 1, y)] = self.pieces_that_would_change(x + 1, y, piece)
 
             # check bottom left of coordinate
             if (x + 1 < 8) and (y - 1 >= 0) and (self.board[x + 1][y - 1] == ' '):
                 sequence_of_pieces = piece
-                pieces_that_would_change = []
                 xRef = x
                 yRef = y
 
-                while xRef >= 0 and yRef < 8 and self.board[xRef][yRef] != ' ':
+                while xRef >= 0 and yRef < 8 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
                     sequence_of_pieces += self.board[xRef][yRef]
-                    if self.board[xRef][yRef] != piece:
-                        pieces_that_would_change.append((xRef, yRef))
                     xRef -= 1
                     yRef += 1
 
-                first_piece = sequence_of_pieces[0]
-                last_piece = sequence_of_pieces[len(sequence_of_pieces) - 1]
-                middle_pieces = sequence_of_pieces[1:len(sequence_of_pieces) - 1] if len(sequence_of_pieces) > 2 else None
 
-                if (first_piece == piece and last_piece == piece) and (middle_pieces and middle_pieces.find(piece) == -1):
-                    valid_moves[(x + 1, y - 1)] = pieces_that_would_change
+                if xRef >= 0 and yRef < 8 and self.board[xRef][yRef] == piece: sequence_of_pieces += piece
 
+                if len(sequence_of_pieces) > 2 and sequence_of_pieces[-1] == piece and sequence_of_pieces[1:-1].find(piece) == -1:
+                    print('hey')
+                    print(self.pieces_that_would_change(x + 1, y -1, piece))
+                    valid_moves[(x + 1, y - 1)] = self.pieces_that_would_change(x + 1, y -1, piece)
+
+    def pieces_that_would_change(self, x:int, y:int, current_piece: str):
+        pieces_that_would_change = []
+        piece = current_piece
+
+        # go right
+        right_string = piece
+        right_affected_pieces = []
+        yRef = y + 1
+        while yRef < 8 and (self.board[x][yRef] != ' ' and self.board[x][yRef] != piece):
+            right_string += self.board[x][yRef]
+            right_affected_pieces.append((x, yRef))
+            yRef += 1
+        
+        if yRef < 8 and self.board[x][yRef] == piece: right_string += piece
+
+        if len(right_string) > 2 and right_string[-1] == piece and right_string[1: - 1].find(piece) == -1:
+            pieces_that_would_change.extend(right_affected_pieces)
+
+        # go down and right
+        up_right_string = piece
+        up_right_affected_pieces = []
+        xRef = x + 1
+        yRef = y + 1
+
+        while xRef < 8 and yRef < 8 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
+            up_right_string += self.board[xRef][yRef]
+            up_right_affected_pieces.append((xRef, yRef))
+            xRef += 1
+            yRef += 1
+         
+        if xRef < 8 and yRef < 8 and self.board[xRef][yRef] == piece: up_right_string += piece
+
+        if len(up_right_string) > 2 and up_right_string[-1] == piece and up_right_string[1: - 1].find(piece) == -1:
+                pieces_that_would_change.extend(up_right_affected_pieces)
+
+        # go down
+        down_string = piece
+        down_affected_pieces = []
+        xRef = x + 1
+
+        while xRef < 8 and (self.board[xRef][y] != ' ' and self.board[xRef][y] != piece):
+            down_string += self.board[xRef][y]
+            down_affected_pieces.append((xRef, y))
+            xRef += 1
+        
+        if xRef < 8 and self.board[xRef][y] == piece: down_string += piece
+
+        if len(down_string) > 2 and down_string[-1] == piece and down_string[1: - 1].find(piece) == -1:
+            pieces_that_would_change.extend(down_affected_pieces)
+    
+        # go down and left
+        down_left_string = piece
+        down_left_affected_pieces = []
+        xRef = x + 1
+        yRef = y - 1
+
+        while xRef < 8 and yRef >= 0 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
+            down_left_string += self.board[xRef][yRef]
+            down_left_affected_pieces.append((xRef, yRef))
+            xRef += 1
+            yRef -= 1
+         
+        if xRef < 8 and yRef >= 0 and self.board[xRef][yRef] == piece: down_left_string += piece
+
+        if len(down_left_string) > 2 and down_left_string[-1] == piece and down_left_string[1: - 1].find(piece) == -1:
+            pieces_that_would_change.extend(down_left_affected_pieces)
+
+        # go left
+        left_string = piece
+        left_affected_pieces = []
+        yRef = y - 1
+
+        while yRef >= 0 and (self.board[x][yRef] != ' ' and self.board[x][yRef] != piece):
+            left_string += self.board[x][yRef]
+            left_affected_pieces.append((x, yRef))
+            yRef -= 1
+        
+        if yRef >= 0 and self.board[x][yRef] == piece: left_string += piece
+
+        if len(left_string) > 2 and left_string[-1] == piece and left_string[1: - 1].find(piece) == -1:
+            pieces_that_would_change.extend(left_affected_pieces)
+
+        # up down and left
+        up_left_string = piece
+        up_left_affected_pieces = []
+        xRef = x - 1
+        yRef = y - 1
+
+        while xRef >= 0 and yRef >= 0 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
+            up_left_string += self.board[xRef][yRef]
+            up_left_affected_pieces.append((xRef, yRef))
+            xRef -= 1
+            yRef -= 1
+         
+        if xRef >= 0 and yRef >= 0 and self.board[xRef][yRef] == piece: up_left_string += piece
+
+        if len(up_left_string) > 2 and up_left_string[-1] == piece and up_left_string[1: - 1].find(piece) == -1:
+            pieces_that_would_change.extend(up_left_affected_pieces)
+
+        # go up
+        up_string = piece
+        up_affected_pieces = []
+        xRef = x - 1
+
+        while xRef >= 0 and (self.board[xRef][y] != ' ' and self.board[xRef][y] != piece):
+            up_string += self.board[xRef][y]
+            up_affected_pieces.append((xRef, y))
+            xRef -= 1
+        
+        if xRef >= 0 and self.board[xRef][y] == piece: up_string += piece
+
+        if len(up_string) > 2 and up_string[-1] == piece and up_string[1: - 1].find(piece) == -1:
+            pieces_that_would_change.extend(up_affected_pieces)
+
+        # go up and right
+        up_right_string = piece
+        up_right_affected_pieces = []
+        xRef = x - 1
+        yRef = y + 1
+
+        while xRef >= 0 and yRef < 8 and (self.board[xRef][yRef] != ' ' and self.board[xRef][yRef] != piece):
+            up_right_string += self.board[xRef][yRef]
+            up_right_affected_pieces.append((xRef, yRef))
+            xRef -= 1
+            yRef += 1
+         
+        if xRef >= 0 and yRef < 8 and self.board[xRef][yRef] == piece: up_right_string += piece
+
+        if len(up_right_string) > 2 and up_right_string[-1] == piece and up_right_string[1: - 1].find(piece) == -1:
+                pieces_that_would_change.extend(up_right_affected_pieces)
+        
+        return pieces_that_would_change
+    
     def print_board(self) -> None:
         for row in self.board:
             print("|".join(row))
